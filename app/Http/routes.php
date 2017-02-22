@@ -17,13 +17,15 @@ Route::get('/', function () {
 //Route::get('/','StaticPagesController@home');
 //Route::get('/help','StaticPagesController@help');
 //Route::get('/about','StaticPagesController@about');
-Route::get('/help','StaticPagesController@help')->name('help');
-Route::get('/','StaticPagesController@home')->name('home');
-Route::get('/about','StaticPagesController@about')->name('about');
+get('/', 'StaticPagesController@home')->name('home');
+get('/help', 'StaticPagesController@help')->name('help');
+get('/about', 'StaticPagesController@about')->name('about');
 
-Route::get('signup','UserController@create')->name('signup');
-resource('users','UserController');
+get('signup', 'UsersController@create')->name('signup');
+resource('users', 'UsersController');
 
-Route::get('login','SessionsController@create')->name('login');
-Route::post('login','SessionsController@store')->name('login');
-delete('logout','SessionsController@destroy')->name('logout');
+get('login', 'SessionsController@create')->name('login');
+post('login', 'SessionsController@store')->name('login');
+delete('logout', 'SessionsController@destroy')->name('logout');
+
+get('signup/confirm/{token}', 'UsersController@confirmEmail')->name('confirm_email');
