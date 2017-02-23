@@ -1,33 +1,25 @@
 <?php
 
-namespace App\Http\Controllers;
-
-use Illuminate\Http\Request;
-
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
-
+use Illuminate\Database\Seeder;
+use App\Models\User;
 use App\Models\Status;
-use Auth;
 
-class StatusesController extends Controller
+class StatusesTableSeeder extends Seeder
 {
-    public function __construct()
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
+    public function run()
     {
-        $this->middleware('auth', [
-            'only' => ['store', 'destroy']
-        ]);
-    }
+        $user_ids = ['1','2','3'];
+        $faker = app(Faker\Generator::class);
 
-    public function store(Request $request)
-    {
-        $this->validate($request, [
-            'content' => 'required|max:140'
-        ]);
+        $statuses = factory(Status::class)->times(100)->make()->each(function ($status) use ($faker, $user_ids) {
+            $status->user_id = $faker->randomElement($user_ids);
+        });
 
-        Auth::user()->statuses()->create([
-            'content' => $request->content
-        ]);
-        return redirect()->back();
+        Status::insert($statuses->toArray());
     }
 }
