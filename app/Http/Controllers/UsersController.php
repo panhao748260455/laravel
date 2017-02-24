@@ -61,6 +61,7 @@ class UsersController extends Controller
       ]);
 
       $user=User::findOrFail($id);
+      
       $this->authorize('update',$user);
 
       $data=[];
