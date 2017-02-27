@@ -61,7 +61,7 @@ class UsersController extends Controller
       ]);
 
       $user=User::findOrFail($id);
-      
+
       $this->authorize('update',$user);
 
       $data=[];
@@ -130,7 +130,8 @@ class UsersController extends Controller
     public function followings($id)
     {
       $user=User::findOrFail($id);
-      $user=$user->followings()->paginate(30);
+      $users=$user->followings()->paginate(30);
+      //dd($users->toArray());
       $title='关注的人';
       return view('users.show_follow',compact('users','title'));
     }
